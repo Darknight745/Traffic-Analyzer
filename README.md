@@ -22,7 +22,7 @@ When a certain number of packets are captured, a browser opens up and all the da
 
 ### Example graph
 
-![Traffic Visualisation](https://github.com/[Darknight745]/[Traffic-Analyzer]/blob/[master]/newplot.png?raw=true)
+![Traffic Visualisation](https://github.com/Darknight745/Traffic-Analyzer/blob/master/newplot.png?raw=true)
 
 #### To Capture more packets
 
