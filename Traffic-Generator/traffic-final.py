@@ -1,6 +1,11 @@
 import requests, time
 from lxml.html import fromstring
 
+with open("./link.txt", "r") as fl:
+    lst = fl.readline()    
+raw_lnk = lst[13:46]
+link = raw_lnk[:4] + raw_lnk[5:]
+
 proxy_table = {}
 
 def get_proxies():
@@ -27,7 +32,7 @@ while True:
         print("Trying HTTP proxy %s" % proxy)
         try:
             #result = requests.get("http://www.google.com", proxies={'http': proxy})
-            result = requests.get("http://neat-fish-88.loca.lt", proxies={'http': proxy})
+            result = requests.get(link, proxies={'http': proxy})
             print("Got URL using proxy %s" % proxy)
             print(result)
             break
