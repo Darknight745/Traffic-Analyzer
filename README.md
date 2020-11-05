@@ -20,6 +20,10 @@ $ python3 ./Traffic-Generator/traffic-final.py
 
 When a certain number of packets are captured, a browser opens up and all the data can be visualized with the help of the graphs present there.
 
+### Example graph
+
+![Traffic Visualisation](https://github.com/[Darknight745]/[Traffic-Analyzer]/blob/[master]/newplot.png?raw=true)
+
 #### To Capture more packets
 
 Change the **-c** option value to desired number on **line 26** in the file **/capNviz.py**

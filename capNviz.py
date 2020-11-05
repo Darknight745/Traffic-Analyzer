@@ -23,7 +23,7 @@ import pandas as pd
 
 ######################################################
 # /****** Traffic Capture and IP extraction *******\ #
-os.system('tshark -f "dst port 3000 && ip[2:2] - ((ip[0]&0x0f) << 2) - ((tcp[12]&0xf0) >> 2) > 100" -c 10 -i lo -w wire1.pcap')
+os.system('tshark -f "dst port 3000 && ip[2:2] - ((ip[0]&0x0f) << 2) - ((tcp[12]&0xf0) >> 2) > 100" -c 20 -i lo -w wire1.pcap')
 
 pdcap = rdpcap('wire1.pcap')
 
@@ -58,13 +58,21 @@ for query in ip_list:
 ip_info = pd.DataFrame(result, columns = col_names)
 ip_info.to_csv('ip.csv')
 
-# read in volcano database data
+# read in ip data
 df = pd.read_csv("ip.csv")
 
 # frequency of Country
 freq = df
 freq = freq.Country.value_counts().reset_index().rename(columns={"index": "x"})
-#print(freq)
+
+# This is the country with maximum traffic
+max_traffic = freq.x[0]
+
+# frequency of City
+cty = df.loc[df["Country"] == max_traffic]
+cities = cty.City.value_counts().reset_index().rename(columns={"index": "c"})
+#print(cities)
+
 
 # Initialize figure with subplots
 fig = make_subplots(
@@ -72,30 +80,37 @@ fig = make_subplots(
     column_widths=[0.6, 0.4],
     row_heights=[0.4, 0.6],
     specs=[[{"type": "scattergeo", "rowspan": 2}, {"type": "bar"}],
-           [            None                    , {"type": "surface"}]])
+           [            None                    , {"type": "bar"}]])
 
-# Add scattergeo globe map of volcano locations
+# Add scattergeo globe map of traffic locations
 fig.add_trace(
     go.Scattergeo(lat=df["lat"],
                   lon=df["lon"],
                   mode="markers",
                   hoverinfo="text",
                   showlegend=False,
-                  marker=dict(color="crimson", size=4, opacity=0.8)),
+                  marker=dict(color="gold", size=4, opacity=0.8)),
     row=1, col=1
 )
 
-# Add locations bar chart
+# Add locations bar chart for country
 fig.add_trace(
-    go.Bar(x=freq["x"][0:10],y=freq["Country"][0:10], marker=dict(color="crimson"), showlegend=False),
+    go.Bar(x=freq["x"][0:10],y=freq["Country"][0:10], marker=dict(color="gold"), showlegend=False),
     row=1, col=2
 )
+
+# Add locations bar chart for city
+fig.add_trace(
+    go.Bar(x=cities["c"][0:10],y=cities["City"][0:10], marker=dict(color="gold"), showlegend=False),
+    row=2, col=2
+)
+
 
 # Update geo subplot properties
 fig.update_geos(
     projection_type="orthographic",
-    landcolor="white",
-    oceancolor="MidnightBlue",
+    landcolor="grey",
+    oceancolor="#222A2A",
     showocean=True,
     lakecolor="LightBlue"
 )
