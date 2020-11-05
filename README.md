@@ -22,8 +22,7 @@ When a certain number of packets are captured, a browser opens up and all the da
 
 ### Example graph
 
-![Traffic Visualisation](https://github.com/Darknight745/Traffic-Analyzer/master/newplot.png?raw=true)
-
+![newplot](https://user-images.githubusercontent.com/60002889/98285626-d37e4c80-1f70-11eb-8b34-699f9714034d.png)
 #### To Capture more packets
 
 Change the **-c** option value to desired number on **line 26** in the file **/capNviz.py**
